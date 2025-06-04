@@ -48,16 +48,16 @@ UINT hash    (PCHAR name);
 void import  (HMODULE hDll, UINT_PTR* pFunction, UINT function_count);
 
 extern "C" void __stdcall lotto(DWORD64 seed) {
-    API api = {  (_wtoi_t)               0x15AEC71E, // NTDLL
-                 (memmove_t)             0x6B995961,
-                 (qsort_t)               0x0DC7E5E9,
-                 (sprintf_s_t)           0xEB624A6B,
-                 (ExitProcess_t)         0x5AB36941, // KERNEL32
-                 (GetCommandLineW_t)     0x3FFBA1F3,
-		         (GetStdHandle_t)        0xFA9F0EA7,
-                 (LoadLibraryA_t)        0x72258513,
-                 (WriteFile_t)           0xF3A5BB62,
-                 (CommandLineToArgvW_t)  0x82D25465  // SHELL32
+    API api = { (_wtoi_t)               0x15AEC71E, // NTDLL
+                (memmove_t)             0x6B995961,
+                (qsort_t)               0x0DC7E5E9,
+                (sprintf_s_t)           0xEB624A6B,
+                (ExitProcess_t)         0x5AB36941, // KERNEL32
+                (GetCommandLineW_t)     0x3FFBA1F3,
+                (GetStdHandle_t)        0xFA9F0EA7,
+                (LoadLibraryA_t)        0x72258513,
+                (WriteFile_t)           0xF3A5BB62,
+                (CommandLineToArgvW_t)  0x82D25465  // SHELL32
               };
 
     HMODULE     hDll;
