@@ -1,4 +1,4 @@
-Demonstrates a 64-bit Windows executable without imports. I've seen claims that this isn't possible on Stack Exchange. Also, a generic lottery picker that uses the thermal noise-based RDSEED instruction.
+Demonstrates a 64-bit Windows executable without imports. I've seen claims that this isn't possible on Stack Overflow and elsewhere. Also, a generic lottery picker that employs the thermal noise-based RDSEED instruction.
 
 usage examples...
 
