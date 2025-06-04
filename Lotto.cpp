@@ -37,7 +37,7 @@ typedef struct {
     ExitProcess_t        ExitProcess;           // KERNEL32
     GetCommandLineW_t    GetCommandLineW;
     GetStdHandle_t       GetStdHandle;
-	LoadLibraryA_t       LoadLibraryA;
+    LoadLibraryA_t       LoadLibraryA;
     WriteFile_t          WriteFile;
     CommandLineToArgvW_t CommandLineToArgvW;    // SHELL32
 } API, *PAPI;
@@ -53,7 +53,7 @@ extern "C" void __stdcall lotto(DWORD64 seed) {
                  (qsort_t)               0x0DC7E5E9,
                  (sprintf_s_t)           0xEB624A6B,
                  (ExitProcess_t)         0x5AB36941, // KERNEL32
-		         (GetCommandLineW_t)     0x3FFBA1F3,
+                 (GetCommandLineW_t)     0x3FFBA1F3,
 		         (GetStdHandle_t)        0xFA9F0EA7,
                  (LoadLibraryA_t)        0x72258513,
                  (WriteFile_t)           0xF3A5BB62,
