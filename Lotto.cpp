@@ -9,6 +9,7 @@
 #pragma warning (disable : 4312)
 
 const CHAR MSG_USAGE[]   = "Generate a lottery line.\n\nusage: lotto main_picks main_balls [extra_picks extra_balls]\n\n";
+const CHAR MSG_RDSEED[]  = "The required RDSEED instruction is not supported on this CPU.\n\n";
 const CHAR MSG_NEWLINE[] = "\n";
 const UINT MAX_PICKS     = 8;
 const UINT MAX_BALLS     = 99;
@@ -47,7 +48,7 @@ void draw    (UINT picks, UINT balls, PBYTE seed, PBYTE line, PAPI papi);
 UINT hash    (PCHAR name);
 void import  (HMODULE hDll, UINT_PTR* pFunction, UINT function_count);
 
-extern "C" void __stdcall lotto(DWORD64 seed) {
+extern "C" void __stdcall lotto(BOOL rdseed_support, DWORD64 seed) {
     API api = { (_wtoi_t)               0x15AEC71E, // NTDLL
                 (memmove_t)             0x6B995961,
                 (qsort_t)               0x0DC7E5E9,
@@ -75,25 +76,32 @@ extern "C" void __stdcall lotto(DWORD64 seed) {
     hDll = api.LoadLibraryA((PCHAR)"SHELL32");
     import(hDll, (PUINT_PTR)&api.CommandLineToArgvW, 1);
 
+    UINT   wrote;
+    HANDLE hOut = api.GetStdHandle(STD_OUTPUT_HANDLE);
+
+    if (!rdseed_support) {
+        api.WriteFile(hOut, (PVOID)MSG_RDSEED, _countof(MSG_RDSEED), &wrote, NULL);
+        api.ExitProcess(1);
+    }
+
     CHAR    msg[100];
     BYTE    line[8];
-    INT     argc;
-    UINT    wrote;
     UINT    main_picks;
     UINT    main_balls;
     UINT    xtra_picks = 0;
     UINT    xtra_balls = 0;
     PBYTE   pbSeed     = (PBYTE)&seed;
-    PWCHAR* argv       = api.CommandLineToArgvW(api.GetCommandLineW(), &argc);
-    HANDLE  hOut       = api.GetStdHandle(STD_OUTPUT_HANDLE);
+
+    INT32   argc;
+    PWCHAR* argv = api.CommandLineToArgvW(api.GetCommandLineW(), &argc);
 
     switch (argc) {
     case 5:
-        xtra_balls = api._wtoi(argv[4]);
         xtra_picks = api._wtoi(argv[3]);
+        xtra_balls = api._wtoi(argv[4]);
     case 3:
-        main_balls = api._wtoi(argv[2]);
         main_picks = api._wtoi(argv[1]);
+        main_balls = api._wtoi(argv[2]);
         break;
 
     default:
